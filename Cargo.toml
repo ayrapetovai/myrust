@@ -10,3 +10,11 @@ path = "src/hello_world.rs"
 [[bin]]
 name = "variables_and_mutability"
 path = "src/variables_and_mutability.rs"
+
+[[bin]]
+name = "data_types"
+path = "src/data_types.rs"
+
+[[bin]]
+name = "data_types_prg"
+path = "src/data_types_prg.rs"

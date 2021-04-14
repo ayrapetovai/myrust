@@ -1,5 +1,5 @@
 macro_rules! compilation_error {
-    ($msg:stmt $(;)?) => {}
+    ($s:stmt $(;)?) => {}
 }
 
 fn main() {
