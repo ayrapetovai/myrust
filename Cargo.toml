@@ -18,3 +18,11 @@ path = "src/data_types.rs"
 [[bin]]
 name = "data_types_prg"
 path = "src/data_types_prg.rs"
+
+[[bin]]
+name = "functions"
+path = "src/functions.rs"
+
+[[bin]]
+name = "expressions"
+path = "src/expressions.rs"
