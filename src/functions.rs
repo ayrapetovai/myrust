@@ -22,6 +22,11 @@ fn return_something_else() -> i32 {
     return 13; // ';' may be omitted
 }
 
+///     0 | 1 | 1 | 2 | 3 | 5 | 8 | 13 | 21
+fn fibonacci(n: i32) -> i32 {
+    if n == 0 { 0 } else if n == 1 { 1 } else { fibonacci(n - 1) + fibonacci(n-2) }
+}
+
 fn main() {
     // rust support forward definition
     a_function();
@@ -45,6 +50,8 @@ fn main() {
     compilation_error!(
         with_param(42i16); // error: expected `i32`, found `i16`
     );
+
+    println!("fibonacci(6) is {}", fibonacci(6));
 }
 
 // returns nothing... '()'
