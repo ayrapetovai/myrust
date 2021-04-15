@@ -75,6 +75,14 @@ fn main() {
         );
     }
 
+    let mut a = [1, 2, 3, 4];
+    println!("array before set {:?}", a);
+    for x in a.iter_mut() {
+        println!("array value {}", x);
+        *x = 1;
+    }
+    println!("array after set {:?}", a);
+
     for number in (1..4).rev() { // upper bound is not inclusive
         println!("for next in range: {}!", number);
     }

@@ -26,3 +26,7 @@ path = "src/functions.rs"
 [[bin]]
 name = "expressions"
 path = "src/expressions.rs"
+
+[[bin]]
+name = "ownership"
+path = "src/ownership.rs"
