@@ -30,3 +30,15 @@ path = "src/expressions.rs"
 [[bin]]
 name = "ownership"
 path = "src/ownership.rs"
+
+[[bin]]
+name = "structs"
+path = "src/structs.rs"
+
+[[bin]]
+name = "enums"
+path = "src/enums.rs"
+
+[[bin]]
+name = "control_flow"
+path = "src/control_flow.rs"
