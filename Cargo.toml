@@ -47,3 +47,6 @@ path = "src/control_flow.rs"
 name = "crate_tree"
 path = "src/crate_tree.rs"
 
+[[bin]]
+name = "vectors"
+path = "src/vectors.rs"
