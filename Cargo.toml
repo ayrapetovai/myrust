@@ -50,3 +50,7 @@ path = "src/crate_tree.rs"
 [[bin]]
 name = "vectors"
 path = "src/vectors.rs"
+
+[[bin]]
+name = "strings"
+path = "src/strings.rs"
