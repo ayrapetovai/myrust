@@ -4,6 +4,8 @@ macro_rules! compilation_error {
 }
 
 // src/main.rs and src/lib.rs are "crate roots", their content forms "module tree"
+// there can be only one lib.rs in a package, it is a crate, it's name is the same as package name,
+// it is 'extern' to other crates (executables) in this package.
 
 // module tree
 // crate

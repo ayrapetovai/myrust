@@ -1,4 +1,6 @@
-// use myrust::eat_at_restaurant; // ok
+// crate is a library or binary (executable)
+// there are lib.rs in this project, it is a separate crate, need to include it explicitly.
+extern crate myrust; // this is for 'use myrust::eat_at_restaurant;'
 
 fn main() {
     {
@@ -6,14 +8,12 @@ fn main() {
         myrust::eat_at_restaurant();
     }
     {
-        // TODO should work! It woks only in a separate package
-        // use myrust::eat_at_restaurant;
-        // eat_at_restaurant();
+        use myrust::eat_at_restaurant;
+        eat_at_restaurant();
     }
     {
-        // TODO should work! It woks only in a separate package
-        // use myrust::eat_at_restaurant as ololo_func;
-        // ololo_func();
+        use myrust::eat_at_restaurant as ololo_func;
+        ololo_func();
     }
     {
         use std::collections::HashMap;
