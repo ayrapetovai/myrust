@@ -42,3 +42,8 @@ path = "src/enums.rs"
 [[bin]]
 name = "control_flow"
 path = "src/control_flow.rs"
+
+[[bin]]
+name = "crate_tree"
+path = "src/crate_tree.rs"
+

@@ -2,6 +2,7 @@ macro_rules! compilation_error {
     ($s:stmt $(;)?) => {}
 }
 
+#[allow(unused)]
 fn main() {
     let x = 1; // no explicit type is put
     println!("let x, x is {}", x);
