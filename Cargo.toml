@@ -62,3 +62,6 @@ path = "src/hash_map.rs"
 [[bin]]
 name = "exercises"
 path = "src/exercises.rs"
+
+[dependencies]
+unicode-segmentation = "1.3"

@@ -1,3 +1,8 @@
+extern crate unicode_segmentation;
+
+use std::collections::HashSet;
+use std::iter::FromIterator;
+
 fn main() {
     {
 // Given a list of integers, use a vector and return the
@@ -47,12 +52,40 @@ fn main() {
             }
         }
         println!("mode is {}", mode(&numbers).unwrap()); // 2
+        println!("mode is {}", mode(&vec![1, 3, 2, 1, 2, 1]).unwrap()); // 1
     }
     {
 // Convert strings to pig latin.
 // The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.”
 // Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”).
 // Keep in mind the details about UTF-8 encoding!
+        extern crate unicode_segmentation;
+        use unicode_segmentation::UnicodeSegmentation;
+        fn to_pig_latin(txt: &str) -> String {
+            let vowels: HashSet<char> = HashSet::from_iter(vec![
+                'e', 'u', 'i', 'o', 'a',
+                'у','е','ы', 'а', 'о', 'я', 'ё', 'и',
+                'あ','い','う','え','お'].into_iter());
+            let mut result = String::new();
+            for word in txt.split_whitespace() {
+                result.push_str(
+                    if vowels.contains(&word.chars().nth(0).unwrap_or_else(|| ' ')) {
+                        String::new() + word + "hay"
+                    } else {
+                        let w: String = UnicodeSegmentation::graphemes(word, true).skip(1).collect();
+                        w + word.chars().nth(0).unwrap_or(' ').to_string().as_str() + "ay"
+                    }.as_str()
+                );
+                result.push(' ');
+            }
+            result
+        }
+        let text = "first apple".to_string();
+        println!("Text: '{}', pigged: '{}'", text, to_pig_latin(&text));
+        let text = "съешь еще этих мягких французских булок".to_string();
+        println!("Text: '{}', pigged: '{}'", text, to_pig_latin(&text));
+        let text = "この　世界は　いいと　訝しまない".to_string(); // この　せかいは　いいと　いぶかしまない - vowel splitting does not work :(
+        println!("Text: '{}', pigged: '{}'", text, to_pig_latin(&text));
     }
     {
 // Using a hash map and vectors, create a text interface to allow a user to add employee names
