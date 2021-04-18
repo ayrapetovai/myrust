@@ -54,3 +54,11 @@ path = "src/vectors.rs"
 [[bin]]
 name = "strings"
 path = "src/strings.rs"
+
+[[bin]]
+name = "hash_map"
+path = "src/hash_map.rs"
+
+[[bin]]
+name = "exercises"
+path = "src/exercises.rs"
