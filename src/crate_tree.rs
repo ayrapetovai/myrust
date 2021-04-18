@@ -2,6 +2,7 @@
 // there are lib.rs in this project, it is a separate crate, need to include it explicitly.
 extern crate myrust; // this is for 'use myrust::eat_at_restaurant;'
 
+#[allow(unused_imports)]
 fn main() {
     {
         println!("Let's go to restaurant!");

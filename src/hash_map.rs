@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
 
 // for types with don't impl Copy trait keys/values will be moved to HashMap

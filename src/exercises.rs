@@ -1,20 +1,10 @@
-// 1. Given a list of integers, use a vector and return the
+fn main() {
+    {
+// Given a list of integers, use a vector and return the
 //   mean (the average value),
 //   median (when sorted, the value in the middle position),
 //   mode (the value that occurs most often; a hash map will be helpful here) of the list.
 
-// Convert strings to pig latin.
-// The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.”
-// Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”).
-// Keep in mind the details about UTF-8 encoding!
-
-// Using a hash map and vectors, create a text interface to allow a user to add employee names
-// to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.”
-// Then let the user retrieve a list of all people in a department or all people in the company
-// y department, sorted alphabetically.
-
-fn main() {
-    {
         let numbers = vec![1, 6, 2, 8, 5, 2, 9, 7, 4];
         println!("Given {:?}", numbers);
 
@@ -43,20 +33,31 @@ fn main() {
                     let counter = counters.entry(n).or_insert(0);
                     *counter += 1
                 }
-                let mut found_key = *counters.keys().min().unwrap();
-                let mut value = counters[found_key];
+                let mut found_number = numbers.first().unwrap();
+                let mut number_counter = counters[found_number];
                 for (k, v) in counters {
-                    if v > value {
-                        found_key = k;
-                        value = v;
+                    if v > number_counter {
+                        found_number = k;
+                        number_counter = v;
                     }
                 }
-                Some(*found_key)
+                Some(*found_number)
             } else {
                 None
             }
         }
         println!("mode is {}", mode(&numbers).unwrap()); // 2
     }
-
+    {
+// Convert strings to pig latin.
+// The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.”
+// Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”).
+// Keep in mind the details about UTF-8 encoding!
+    }
+    {
+// Using a hash map and vectors, create a text interface to allow a user to add employee names
+// to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.”
+// Then let the user retrieve a list of all people in a department or all people in the company
+// y department, sorted alphabetically.
+    }
 }

@@ -77,11 +77,12 @@ mod back_of_house {
     }
 
     // enum variants are public by default
+    #[allow(dead_code)]
     pub enum Appetizer {
         Soup,
         Salad,
     }
-
+    #[allow(unused)]
     fn fix_incorrect_order() {
         // this is not crate::front_of_house::serving::server_order
         super::server_order();
@@ -91,6 +92,7 @@ mod back_of_house {
     fn cook_order() {}
 }
 
+#[allow(path_statements)]
 pub fn eat_at_restaurant() {
     // absolut path, that is because of use of 'crate::'
     crate::front_of_house::hosting::add_to_waitlist();
@@ -114,6 +116,7 @@ pub fn eat_at_restaurant() {
     back_of_house::Appetizer::Salad; // warning: path statement with no effect
 }
 
+#[allow(unused)]
 fn eat_at_restaurant_2() {
     // introduces names in to the scope
     {

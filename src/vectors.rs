@@ -1,5 +1,3 @@
-use std::path::StripPrefixError;
-
 #[derive(Debug)]
 struct Verbose {
     number: i32
