@@ -29,7 +29,7 @@ fn main() {
         }
         //         0  1  2  3  4  5  6  7  8
         // sorted [1, 2, 2, 4, 5, 6, 7, 8, 9]
-        println!("median is {}", median(&numbers).unwrap()); // 5
+        println!("median is {}", median(&numbers).unwrap_or(-1)); // 5
 
         fn mode(numbers: &Vec<i32>) -> Option<i32> {
             if numbers.len() > 0 {
@@ -51,8 +51,8 @@ fn main() {
                 None
             }
         }
-        println!("mode is {}", mode(&numbers).unwrap()); // 2
-        println!("mode is {}", mode(&vec![1, 3, 2, 1, 2, 1]).unwrap()); // 1
+        println!("mode is {}", mode(&numbers).unwrap_or(-1)); // 2
+        println!("mode is {}", mode(&vec![1, 3, 2, 1, 2, 1]).unwrap_or(-1)); // 1
     }
     {
 // Convert strings to pig latin.
@@ -70,10 +70,10 @@ fn main() {
             for word in txt.split_whitespace() {
                 result.push_str(
                     if vowels.contains(&word.chars().nth(0).unwrap_or_else(|| ' ')) {
-                        String::new() + word + "hay"
+                        String::from(word) + "hay"
                     } else {
-                        let w: String = UnicodeSegmentation::graphemes(word, true).skip(1).collect();
-                        w + word.chars().nth(0).unwrap_or(' ').to_string().as_str() + "ay"
+                        let w = word.graphemes(true).skip(1).collect::<String>();
+                        w + word.graphemes(true).take(0).collect::<String>().as_str() + "ay"
                     }.as_str()
                 );
                 result.push(' ');
