@@ -63,5 +63,9 @@ path = "src/hash_map.rs"
 name = "exercises"
 path = "src/exercises.rs"
 
+[[bin]]
+name = "error_handling"
+path = "src/error_handling.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
