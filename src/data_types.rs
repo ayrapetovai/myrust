@@ -116,4 +116,7 @@ fn main() {
     // array element access with [] operator
     let first = a[0];
     let second = a[1];
+
+    let x = 3.to_string(); // blanket implementation of 'to_string' for integers
+    println!("3.to_string() is {}", x);
 }

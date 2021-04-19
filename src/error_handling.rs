@@ -12,6 +12,7 @@ fn ask_for_panic(message: &str) -> bool {
     answer.trim() == "y"
 }
 
+#[allow(unused)]
 fn main() {
     {
         if ask_for_panic("Call 'panic!' macro?") {

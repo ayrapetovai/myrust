@@ -4,20 +4,20 @@ macro_rules! compilation_error {
     ($s:stmt $(;)?) => {}
 }
 
+// generalizing code with type-parameter
+fn largest<T: PartialOrd>(a: &[T]) -> &T {
+    let mut biggest_element = &a[0];
+    for v in a {
+        if biggest_element < v {
+            biggest_element = v;
+        }
+    }
+    biggest_element
+}
+
 #[allow(unused)]
 fn main() {
     {
-        // generalizing code with type-parameter
-        fn largest<T: PartialOrd>(a: &[T]) -> &T {
-            let mut biggest_number = &a[0];
-            for v in a {
-                if biggest_number < v {
-                    biggest_number = v;
-                }
-            }
-            biggest_number
-        }
-
         let v = vec![1, 6, 2, 9, 4, 3];
         println!("biggest number in {:?} is {}", v, largest(&v));
 
@@ -26,7 +26,7 @@ fn main() {
             x: i32,
             y: i32,
         }
-        impl PartialEq for Vector {
+        impl PartialEq for Vector { // orphan rule - ok, Vector resides in this module
             fn eq(&self, other: &Self) -> bool {
                 self.x == other.x && self.y == other.y
             }
@@ -42,6 +42,7 @@ fn main() {
     }
     {
         // Generics arguments are a part of a type
+        #[derive(Debug, PartialOrd, Ord, PartialEq, Eq)]
         struct Point<X, Y> {
             x: X,
             y: Y,
@@ -62,5 +63,10 @@ fn main() {
         i_f_point = Point { x: 1, y: 0.23 };
 
         println!("x part of point is {}", i_f_point.x());
+
+        let mut points = vec![&Point {x: 4, y: 0}, &Point {x: 1, y: 1}, &Point {x: 0, y: 1}];
+        points.sort();
+        println!("Sorted points are {:?}", points);
+        println!("Largest point is {:?}", largest(&points))
     }
 }
