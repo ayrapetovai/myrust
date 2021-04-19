@@ -71,5 +71,9 @@ path = "src/error_handling.rs"
 name = "generics"
 path = "src/generics.rs"
 
+[[bin]]
+name = "traits"
+path = "src/traits.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
