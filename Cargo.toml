@@ -67,5 +67,9 @@ path = "src/exercises.rs"
 name = "error_handling"
 path = "src/error_handling.rs"
 
+[[bin]]
+name = "generics"
+path = "src/generics.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
