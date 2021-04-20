@@ -119,4 +119,7 @@ fn main() {
 
     let x = 3.to_string(); // blanket implementation of 'to_string' for integers
     println!("3.to_string() is {}", x);
+
+    let x; // type of 'x' is inferred from initializer's type on the next line
+    x = 10; // delayed initialization of x variable
 }
