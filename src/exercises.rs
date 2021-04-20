@@ -3,6 +3,66 @@ extern crate unicode_segmentation;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+/*
+// TODO how to write this in rust the right way
+// Java
+// given collections of chars, with spaces, replace spaces with '%20'
+int urlify(char[] str, int len) {
+    if (str == null || len <= 0 || 0 < str.length) {
+        return 0;
+    }
+    int back_index = str.length - 1;
+    for (int i = len - 1; i >= 0; i--) {
+        if (str[i] == ' ') {
+            str[back_index--] = '0';
+            str[back_index--] = '2';
+            str[back_index--] = '%';
+        } else {
+            str[back_index--] = str[i];
+        }
+    }
+    back_index++;
+    for (int i = 0; i < str.length - back_index; i++) {
+        str[i] = str[i + back_index];
+    }
+    return str.length - back_index;
+}
+ */
+
+#[allow(dead_code)]
+fn urlify(s: &mut [char], length: usize) -> usize {
+    if length == 0 || s.len() < length {
+        return 0;
+    }
+    let mut back_index = s.len() - 1;
+    for i in (0..length).rev() {
+        if s[i] == ' ' {
+            if back_index > 0 {
+                s[back_index] = '0';
+                back_index -= 1;
+            }
+            if back_index > 0 {
+                s[back_index] = '2';
+                back_index -= 1;
+            }
+            if back_index > 0 {
+                s[back_index] = '%';
+                back_index -= 1;
+            }
+        } else {
+            s[back_index] = s[i];
+            if back_index > 0 {
+                back_index -= 1;
+            }
+        }
+    }
+    back_index += 1;
+    for i in 0..(s.len() - back_index) {
+        s[i] = s[i + back_index];
+    }
+    return s.len() - back_index;
+}
+
 fn main() {
     {
 // Given a list of integers, use a vector and return the
@@ -92,5 +152,48 @@ fn main() {
 // to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.”
 // Then let the user retrieve a list of all people in a department or all people in the company
 // y department, sorted alphabetically.
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use urlify;
+
+    #[test]
+    fn urlify_nochars_zero_len() {
+        let mut v = vec![];
+        let result_len = urlify(&mut v, 0);
+        assert_eq!(0, result_len);
+    }
+
+    #[test]
+    fn urlify_nochars_some_len() {
+        let mut v = vec![' ', ' ', ' '];
+        let result_len = urlify(&mut v, 0);
+        assert_eq!(0, result_len);
+    }
+
+    #[test]
+    fn urlify_onechar_one_len() {
+        let mut v = vec!['a', ' ']; // TODO urlify must work without free space when it is not needed
+        let result_len = urlify(&mut v, 1);
+        println!("Res: {:?}", &v[0..result_len]);
+        assert_eq!(1, result_len);
+    }
+
+    #[test]
+    fn urlify_one_space_one_len() {
+        let mut v = vec![' ', ' ', ' ', ' '];
+        let result_len = urlify(&mut v, 1);
+        println!("Res: {:?}", &v[0..result_len]);
+        assert_eq!(3, result_len);
+    }
+
+    #[test]
+    fn urlify_one_space_four_len() {
+        let mut v = vec!['a', 'b', ' ', 'c', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+        let result_len = urlify(&mut v, 4);
+        println!("Res: {:?}", &v[0..result_len]);
+        assert_eq!(6, result_len);
     }
 }

@@ -79,5 +79,9 @@ path = "src/traits.rs"
 name = "lifetimes"
 path = "src/lifetimes.rs"
 
+[[bin]]
+name = "tests"
+path = "src/tests.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"

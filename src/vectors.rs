@@ -94,3 +94,14 @@ println!("********* vectors");
         }
     }
 }
+
+// each source file can contain test functions
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn vector_add() {
+        let mut v: Vec<i32> = vec![];
+        v.push(1);
+        assert_eq!(1, v.len())
+    }
+}

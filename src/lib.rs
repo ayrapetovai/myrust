@@ -1,3 +1,5 @@
+// only library can export modules that other crate can use (including binary crates in the same package)
+
 #[macro_export]
 macro_rules! compilation_error {
     ($e:stmt $(;)?) => {}
