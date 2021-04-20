@@ -1,13 +1,9 @@
 use std::mem::size_of;
 use std::cmp::Ordering;
 
-macro_rules! debug_runtime_error {
-    ($s:stmt $(;)?) => {}
-}
-
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
+use self::myrust::debug_runtime_error;
 
 // Each signed variant can store numbers from -(2^(n - 1)) to 2^(n - 1) - 1 inclusive
 
@@ -26,9 +22,9 @@ fn main() {
 
     // use typename as postfix to specify number literal type
     let an_unsigned_64bit_number = 92u64;
-    let bigest_integer = 1u128;
+    let biggest_integer = 1u128;
 
-    let l = "".len(); // l: usize; isaze and usize for indexing some collection
+    let l = "".len(); // l: usize; isize and usize for indexing some collection
 
     let max_8bit_value: i8 = i8::MAX;
     println!("signed 8-bit max value is {}", max_8bit_value);
@@ -43,8 +39,17 @@ fn main() {
         let var_to_overflow: i16 = (max_8bit_value + 1) as i16; // error: attempt to add with overflow
     );
 
+    compilation_error!(
+        let var_to_overflow: i16 = (max_8bit_value + 1u16) as i16; // cannot add `u16` to `i8`, no implementation for `i8 + u16`
+    );
+
+    // operator is chosen by the type of the first operand, '1' is casted to the first operand's type because it is non-type-annotated literal
     // now operating on i16
     let var_not_to_overflow = max_8bit_value as i16 + 1; // now, OK
+    // if numeric literal is type-annotated it's type is not to be casted
+    compilation_error!(
+        let var_not_to_overflow = max_8bit_value as i16 + 1i8; // mismatched types, expected `i16`, found `i8`
+    );
     println!("i8::MAX as i16 + 1 is {}", var_not_to_overflow); // 128
 
     let a: i64 = 1;
@@ -58,8 +63,9 @@ fn main() {
     );
 
 // floating points
-    let x = 3.0f32; // f32, single precision
-    let y = 3.0;    // f64, double precision
+    let x = 3.0f32; // : f32, single precision
+    let y = 3.0;    // : f64, double precision
+    let z: f32 = 3.14;   // non-type-annotated number literal, cast from f64 to f32 is OK
 
     // addition
     let sum = 5 + 10; // : i32

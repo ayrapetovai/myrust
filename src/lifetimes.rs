@@ -39,9 +39,8 @@ that lifetime is assigned to all output lifetime parameters: fn foo<'a>(x: &'a i
 but one of them is &self or &mut self because this is a method,
 the lifetime of self is assigned to all output lifetime parameters.
 */
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use myrust::compilation_error;
 
 #[derive(Debug)]
 struct Verbose {
@@ -87,17 +86,15 @@ fn main() {
             println!("Taken by reference and returned as is {:?}", v);
             v
         }
-        compilation_error!(
-            let v = take_by_reference_and_return_reference(&Verbose { id: 3 }); // temporary value dropped while borrowed
-        );
-        let v = Verbose { id: 3 };
-        let v = take_by_reference_and_return_reference(&v); // OK
-        println!("Value returned by reference from function {:?}", v);
 
-        let v = take_by_reference_and_return_reference(&Verbose { id: 4 });
+        let v = take_by_reference_and_return_reference(&Verbose { id: 3 });
         compilation_error!(
             println!("Value returned by reference from function {:?}", v); // temporary value dropped while borrowed
         );
+
+        let v = Verbose { id: 3 };
+        let v = take_by_reference_and_return_reference(&v); // OK
+        println!("Value returned by reference from function {:?}", v);
     }
     {
         // borrow two references and return one of them
@@ -109,8 +106,8 @@ fn main() {
             }
         );
 
-        // 'a is an arbitrary lifetime name, it says that all annotated variables live while the same time in outer scope
-        // because function can return ether one or another.
+        // 'a is a lifetime arbitrary name, it says that all annotated variables live while the same time in outer scope
+        // because function can return ether one or another of input arguments.
         // And if one of values lives only while function call is not returned it can't be used after function returns it
         fn take_by_reference_and_return_reference<'a>(v1: &'a Verbose, v2: &'a Verbose) -> &'a Verbose {
             println!("Taken by reference and returned as is {:?} {:?}", v1, v2);
@@ -131,7 +128,7 @@ fn main() {
         );
 
         // lifetime annotation are about end of lifetime of variables, no the whole lifetime
-        println!("--> now tow of variables live longer");
+        println!("--> now both of variables live longer");
         let v1 = Verbose { id: 9 };
         {
             let v2 = Verbose { id: 10 };

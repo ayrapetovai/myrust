@@ -1,13 +1,12 @@
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
 
 #[allow(unused)]
 fn main() {
-    let x = 1; // no explicit type is put
+    let x = 1; // no explicit type is put ("variable is not annotated with type")
     println!("let x, x is {}", x);
     compilation_error!(
-        x = 2;  // cannot assign twice to immutable variable, make mutable?
+        x = 2;  // cannot assign twice to immutable variable
     );
     let x = 2; // shadowing, explicitly redeclare is OK
     println!("another let x is {}", x);
@@ -15,7 +14,7 @@ fn main() {
     // shadowing name can become mutable
     let mut x = "Hello!"; // shadowing lets to change the type of the name
     println!("let x to be a string, value is {}", x);
-    x = ""; // ok, x is mutable now, warning: value assigned to `x` is never read
+    x = ""; // ok, 'x' is mutable now, warning: value assigned to `x` is never read
 
     // however, types are checked
     compilation_error!(

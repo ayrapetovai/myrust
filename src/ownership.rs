@@ -3,9 +3,8 @@
 // There can only be one owner at a time.
 // When the owner goes out of scope, the value will be dropped.
 
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use myrust::compilation_error;
 
 struct Verbose {
     x: i32
@@ -274,5 +273,26 @@ fn main() {
         let a: [i32; 3] = [0, 2, 1];
         let s = &a[1..2]; // 's' is a slice to array of integers '&[i32]'
         println!("A slice to array is {:?}", s);
+    }
+    {
+        #[derive(Debug)]
+        struct Verbose {
+            id: i32
+        }
+
+        impl Copy for Verbose {} // 'Copy' requires to implement 'Clone'
+        impl Clone for Verbose {
+            fn clone(&self) -> Self {
+                println!("Copying {:?}", self);
+                Self { id: self.id }
+            }
+        }
+        fn take_by_reference_and_return(v: &Verbose) -> Verbose {
+            println!("Taken by reference and returned dereferenced {:?}", v);
+            *v // move
+        }
+        let v = take_by_reference_and_return(&Verbose { id: 11 });
+        // previous value was dropped here
+        println!("Value copied from function {:?}", v);
     }
 }

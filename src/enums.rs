@@ -1,10 +1,6 @@
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
-
-macro_rules! runtime_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
+use self::myrust::runtime_error;
 
 #[allow(unused)]
 fn main() {

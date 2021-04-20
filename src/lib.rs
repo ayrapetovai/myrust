@@ -1,6 +1,16 @@
-
+#[macro_export]
 macro_rules! compilation_error {
     ($e:stmt $(;)?) => {}
+}
+
+#[macro_export]
+macro_rules! runtime_error {
+    ($s:stmt $(;)?) => {}
+}
+
+#[macro_export]
+macro_rules! debug_runtime_error {
+    ($s:stmt $(;)?) => {}
 }
 
 // src/main.rs and src/lib.rs are "crate roots", their content forms "module tree"

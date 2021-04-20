@@ -1,8 +1,7 @@
 use std::cmp::Ordering;
 
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
 
 // generalizing code with type-parameter
 fn largest<T: PartialOrd>(a: &[T]) -> &T {

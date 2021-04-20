@@ -14,8 +14,8 @@ fn main() {
     let user_input = user_input.trim();
     let index: usize = match user_input.parse() {
         Ok(n) => n,
-        Err(_) => {
-            println!("Invalid number '{}'!", user_input);
+        Err(e) => {
+            println!("Invalid number '{}', error '{}'!", user_input, e);
             exit(1);
         }
     };

@@ -1,6 +1,5 @@
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use myrust::compilation_error;
 
 #[allow(unused)]
 fn main() {
@@ -13,7 +12,7 @@ fn main() {
         y // variable name is an expression
     };
 
-    // {} is an expression '()' void
+    // {} is an expression, that returns '()' void
     let x = {};
 
     // 'if' is an expression

@@ -1,6 +1,5 @@
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
 
 fn with_param(x: i32) {
     println!("Passed integer value is {}", x);

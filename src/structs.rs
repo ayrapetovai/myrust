@@ -1,8 +1,8 @@
 use std::fmt::{Display, Formatter};
 use std::fmt;
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
+
 
 #[derive(Debug)]
 struct User {

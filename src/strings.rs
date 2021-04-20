@@ -1,7 +1,6 @@
 use std::ops::Index;
-macro_rules! compilation_error {
-    ($s:stmt $(;)?) => {}
-}
+extern crate myrust;
+use self::myrust::compilation_error;
 
 #[allow(unused)]
 fn main() {
