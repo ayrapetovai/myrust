@@ -4,6 +4,8 @@
 // We can’t implement external traits on external types.
 
 use std::fmt::{Display, Formatter, Debug};
+extern crate myrust;
+use myrust::compilation_error;
 
 trait Summary {
     fn summarize_author(&self) -> String; // Ok, abstract method, must be overridden
@@ -131,12 +133,12 @@ fn main() {
         }
 
         impl<T> Pair<T> {
-            /* compilation error
-            fn greatest(&self) -> &T {                     // duplicate definitions for `greatest`
-                println!("I don't know...");
-                &self.first
-            }
-            */
+            compilation_error!(
+                fn greatest(&self) -> &T {                     // duplicate definitions for `greatest`
+                    println!("I don't know...");
+                    &self.first
+                }
+            );
             fn greatest_unknown(&self) -> String {
                 "I don't know...".to_string()
             }

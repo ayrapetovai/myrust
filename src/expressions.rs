@@ -91,6 +91,6 @@ fn main() {
     let x = match s {
         "0" => 1,
         "1" => 2,
-        _ => 0 // any other cases
+        _ => 0 // any other cases, where '_' is a variable name that can be used
     };
 }

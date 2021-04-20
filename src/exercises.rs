@@ -73,7 +73,7 @@ fn main() {
                         String::from(word) + "hay"
                     } else {
                         let w = word.graphemes(true).skip(1).collect::<String>();
-                        w + word.graphemes(true).take(0).collect::<String>().as_str() + "ay"
+                        w + word.graphemes(true).take(1).collect::<String>().as_str() + "ay"
                     }.as_str()
                 );
                 result.push(' ');
