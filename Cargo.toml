@@ -75,5 +75,9 @@ path = "src/generics.rs"
 name = "traits"
 path = "src/traits.rs"
 
+[[bin]]
+name = "lifetimes"
+path = "src/lifetimes.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
