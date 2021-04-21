@@ -6,7 +6,10 @@ use std::iter::FromIterator;
 /*
 // TODO how to write this in rust the right way
 // Java
-// given collections of chars, with spaces, replace spaces with '%20'
+// given collections of chars, with spaces, replace spaces with '%20'.
+// 'len' pints to the last meaning char, all symbols right to it are garbage and can be used for better purpose.
+// The length of garbage tail is always enough to store the collections with spaces replaces with '%20'
+// str = "asd asd d    ", len = 9 <- four additional spaces should be enough.
 int urlify(char[] str, int len) {
     if (str == null || len <= 0 || 0 < str.length) {
         return 0;
@@ -35,28 +38,37 @@ fn urlify(s: &mut [char], length: usize) -> usize {
         return 0;
     }
     let mut back_index = s.len() - 1;
+    let mut offset = 0usize;
     for i in (0..length).rev() {
         if s[i] == ' ' {
+            s[back_index] = '0';
             if back_index > 0 {
-                s[back_index] = '0';
                 back_index -= 1;
+            } else {
+                offset += 1;
             }
+            s[back_index] = '2';
             if back_index > 0 {
-                s[back_index] = '2';
                 back_index -= 1;
+            } else {
+                offset += 1;
             }
+            s[back_index] = '%';
             if back_index > 0 {
-                s[back_index] = '%';
                 back_index -= 1;
+            } else {
+                offset += 1;
             }
         } else {
             s[back_index] = s[i];
             if back_index > 0 {
                 back_index -= 1;
+            } else {
+                offset += 1;
             }
         }
     }
-    back_index += 1;
+    back_index += 1 - offset;
     for i in 0..(s.len() - back_index) {
         s[i] = s[i + back_index];
     }
@@ -159,41 +171,67 @@ fn main() {
 mod tests {
     use urlify;
 
+    fn create_test_string(s: &str) -> Vec<char> {
+        let mut result: Vec<char> = Vec::with_capacity(s.len());
+        let mut count = 0usize;
+        for c in s.chars() {
+            if c == ' ' {
+                count += 1;
+            }
+            result.push(c);
+        }
+        let mut tail = vec![' '; count * 2];
+        result.append(&mut tail);
+        result
+    }
+
+    fn check_result(expected: &str, v: &Vec<char>, length: usize) {
+        assert_eq!(expected.len(), length);
+        let mut i = 0;
+        for c in expected.chars() {
+            assert_eq!(c, v[i]);
+            i += 1;
+        }
+    }
+
+    fn check(original: &str, expected: &str) {
+        println!("Original '{}'", original);
+        let mut result = create_test_string(original);
+        println!("Target {:?}", result);
+        let result_len = urlify(&mut result, original.len());
+        println!("Result {:?}, length {}", result, result_len);
+        check_result(expected, &result, result_len);
+    }
+
     #[test]
     fn urlify_nochars_zero_len() {
         let mut v = vec![];
         let result_len = urlify(&mut v, 0);
-        assert_eq!(0, result_len);
+        check_result("", &v, result_len);
     }
 
     #[test]
     fn urlify_nochars_some_len() {
-        let mut v = vec![' ', ' ', ' '];
-        let result_len = urlify(&mut v, 0);
-        assert_eq!(0, result_len);
+        check("", "");
     }
 
     #[test]
     fn urlify_onechar_one_len() {
-        let mut v = vec!['a', ' ']; // TODO urlify must work without free space when it is not needed
-        let result_len = urlify(&mut v, 1);
-        println!("Res: {:?}", &v[0..result_len]);
-        assert_eq!(1, result_len);
+        check("a", "a");
     }
 
     #[test]
     fn urlify_one_space_one_len() {
-        let mut v = vec![' ', ' ', ' ', ' '];
-        let result_len = urlify(&mut v, 1);
-        println!("Res: {:?}", &v[0..result_len]);
-        assert_eq!(3, result_len);
+        check(" ", "%20");
     }
 
     #[test]
     fn urlify_one_space_four_len() {
-        let mut v = vec!['a', 'b', ' ', 'c', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-        let result_len = urlify(&mut v, 4);
-        println!("Res: {:?}", &v[0..result_len]);
-        assert_eq!(6, result_len);
+        check("ab c", "ab%20c");
+    }
+
+    #[test]
+    fn urlify_three_space_four_len() {
+        check(" abc c-1 ", "%20abc%20c-1%20");
     }
 }
