@@ -41,23 +41,7 @@ the lifetime of self is assigned to all output lifetime parameters.
 */
 extern crate myrust;
 use myrust::compilation_error;
-
-#[derive(Debug)]
-struct Verbose {
-    id: i32
-}
-
-impl Drop for Verbose {
-    fn drop(&mut self) {
-        println!("Dropping {:?}", self);
-    }
-}
-
-impl Clone for Verbose {
-    fn clone(&self) -> Self {
-        Self { id: self.id }
-    }
-}
+use myrust::Verbose;
 
 #[allow(unused)]
 fn main() {

@@ -15,6 +15,24 @@ macro_rules! debug_runtime_error {
     ($s:stmt $(;)?) => {}
 }
 
+#[derive(Debug)]
+pub struct Verbose {
+    pub id: i32
+}
+
+impl Drop for Verbose {
+    fn drop(&mut self) {
+        println!("Dropping {:?}", self);
+    }
+}
+
+impl Clone for Verbose {
+    fn clone(&self) -> Self {
+        Self { id: self.id }
+    }
+}
+
+
 // src/main.rs and src/lib.rs are "crate roots", their content forms "module tree"
 // there can be only one lib.rs in a package, it is a crate, it's name is the same as package name,
 // it is 'extern' to other crates (executables) in this package.
