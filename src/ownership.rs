@@ -295,4 +295,17 @@ fn main() {
         // previous value was dropped here
         println!("Value copied from function {:?}", v);
     }
+    {
+        struct A;
+        impl A { fn mutate(&mut self) {} } // this method requires '&mut self'
+
+        fn take_ownership_and_mutate(mut a: A) {
+            println!("Can mutate object if ownership is taken");
+            a.mutate()
+        }
+
+        let outer_a = A {}; // immutable here
+        take_ownership_and_mutate(outer_a); // but mutable there
+        // outer_a is no longer valid, it does not claim any guaranties, compiler does not care if it was mutated where the ownership was passed
+    }
 }
