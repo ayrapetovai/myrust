@@ -20,6 +20,12 @@ pub struct Verbose {
     pub id: i32
 }
 
+impl Verbose {
+    pub fn new(id: i32) -> Self {
+        Verbose { id }
+    }
+}
+
 impl Drop for Verbose {
     fn drop(&mut self) {
         println!("Dropping {:?}", self);
