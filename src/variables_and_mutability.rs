@@ -31,4 +31,40 @@ fn main() {
         const Z: i32 = 1 + x; // x is non-constant value (but immutable!)
     );
     const Z: i32 = 1 + Y; // ok, Y is constant value
+
+    // compilation_error:
+    // let x_mut: mut i32 = 1; // error: expected type, found keyword `mut`
+    //            ^^^ expected type
+
+    let mut x_mut: i32 = 1;
+    let x_ref: &mut i32 = &mut x_mut; // 'x_ref' is immutable
+    compilation_error!(
+        x_ref = &2; // mismatched types, expected mutable reference `&mut i32`, found reference `&i32`
+        //      ^^ types differ in mutability
+    );
+    compilation_error!(
+        x_ref = &mut 2; // cannot assign twice to immutable variable `x_ref`
+    );
+    let mut x_ref: &mut i32 = &mut x_mut;
+    x_ref = &mut 2; //  creates a temporary which is freed while still in use, 'x_ref' becomes invalid
+    // compilation_error:
+    // println!("Values of variable({}) and reference({})", x_mut, x_ref); // temporary value dropped while borrowed
+    let mut x_ref: &i32 = &mut x_mut;
+    x_ref = &2;
+    println!("Values of variable({}) and reference({})", x_mut, x_ref); // 1 2
+    compilation_error!(
+        *x_ref = 2; // cannot assign to `*x_ref` which is behind a `&` reference, because 'x_ref' is of type '&i32' - immutable
+    );
+    {
+        let mut x_ref: &mut i32 = &mut x_mut;
+        *x_ref = 2; // Ok
+        println!("Values of reference({})", x_ref); // 2
+    }
+    println!("Values of variable({})", x_mut); // 2
+    {
+        let x_ref: &mut i32 = &mut x_mut; // 'x_ref' is immutable
+        *x_ref = 3; // Ok                    but it points to a mutable value
+        println!("Values of reference({})", x_ref); // 3
+    }
+    println!("Values of variable({})", x_mut); // 3
 }
