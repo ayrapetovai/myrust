@@ -82,9 +82,12 @@ fn main() {
     }
     println!("array after set {:?}", a);
 
-    for number in (1..4).rev() { // upper bound is not inclusive
+    for number in (1..4).rev() { // upper bound is not inclusive, so called "right-exclusive range"
         println!("for next in range: {}!", number);
     }
+
+    assert_eq!(vec![1, 2, 3], (1..4).into_iter().collect::<Vec<_>>()); // right-exclusive range
+    assert_eq!(vec![1, 2, 3, 4], (1..=4).into_iter().collect::<Vec<_>>()); // right-inclusive range
 
     // 'match' is an expression
     let s = "1";
