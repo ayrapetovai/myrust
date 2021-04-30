@@ -91,6 +91,10 @@ path = "src/closures.rs"
 name = "iterators"
 path = "src/iterators.rs"
 
+[[bin]]
+name = "smart_pointers"
+path = "src/smart_pointers.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
 rand = "0.8.3"
