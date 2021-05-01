@@ -103,6 +103,10 @@ path = "src/destructors.rs"
 name = "smart_pointers_rc"
 path = "src/smart_pointers_rc.rs"
 
+[[bin]]
+name = "reference_cycles"
+path = "src/reference_cycles.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
 rand = "0.8.3"
