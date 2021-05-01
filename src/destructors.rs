@@ -10,6 +10,7 @@ fn main() {
         println!("Before gone out of scope");
     }
     {
+        // drop values by hand
         let mut v = Verbose::new(2);
         compilation_error!(
             v.drop(); // explicit use of destructor method, explicit destructor calls not allowed
@@ -24,5 +25,10 @@ fn main() {
             let vv = v; // use of moved value: `v`, 'v' is invalid
         );
         println!("Going out of scope");
+    }
+    {
+        let v = Verbose::new(4);
+        std::mem::drop(&v); // reference to 'v' is dropped, not 'v'
+        println!("No dropping {:?} above, 'v' is valid", v);
     }
 }
