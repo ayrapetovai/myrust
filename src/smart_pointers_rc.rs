@@ -1,5 +1,6 @@
 extern crate myrust;
 use myrust::Verbose;
+use myrust::runtime_error;
 
 use crate::List::{ Nil, Cons };
 
@@ -56,8 +57,22 @@ fn main() {
         // Having Multiple Owners of Mutable Data by Combining Rc<T> and RefCell<T>
         let v = Rc::new(RefCell::new(Verbose::new(42)));
         let non_suspecting_ref = v.clone();
-        println!("non_suspecting_ref is immutable and sees{:?}", non_suspecting_ref.borrow()); // 42
+        println!("non_suspecting_ref is immutable and sees {:?}", non_suspecting_ref.borrow()); // 42
         v.borrow_mut().id = 13; // can mutate, despite of 'v' and 'non_suspecting_ref' are immutable
         println!("non_suspecting_ref now sees {:?}", non_suspecting_ref.borrow()); // 13
+    }
+    {
+        // Weak references don’t express an ownership
+        let weak_ref;
+        {
+            let v = Rc::new(Verbose::new(1));
+            weak_ref = Rc::downgrade(&v); // : Weak<Verbose>
+            println!("Weak references points to {:?}", weak_ref.upgrade().unwrap()); // Ok, owner 'v' is still valid
+        }
+        // when owning referee 'v' goes out of scope, Verbose.id == 1 dies, so  'weak_ref' becomes invalid
+        runtime_error!(
+            // thread 'main' panicked at 'called `Option::unwrap()` on a `None` value'
+            println!("Weak references points to {:?}", weak_ref.upgrade().unwrap());
+        );
     }
 }
