@@ -19,7 +19,7 @@ fn main() {
         std::mem::drop(v); // takes ownership, this 'drop' "has no implementation"
         // 'std::mem:drop' may be useful when do RAII
 
-        println!("v(2) is droppedm, before it has gone out of scope");
+        println!("v(2) is dropped, before it has gone out of scope");
         v = Verbose::new(3);
         compilation_error!(
             let vv = v; // use of moved value: `v`, 'v' is invalid
@@ -30,5 +30,14 @@ fn main() {
         let v = Verbose::new(4);
         std::mem::drop(&v); // reference to 'v' is dropped, not 'v'
         println!("No dropping {:?} above, 'v' is valid", v);
+    }
+    {
+        println!("Scope begins");
+        let v = Verbose::new(5);
+        println!("After first 'v' created, before second 'v' created");
+        // no "redefining", shadowing only, even in the same scope
+        let v = Verbose::new(6); // "the last" value of 'v' is not about to be dropped
+        println!("About to go out of scope");
+        // first 'v' and second 'v' dropped here
     }
 }
