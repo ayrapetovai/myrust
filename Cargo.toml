@@ -111,6 +111,10 @@ path = "src/reference_cycles.rs"
 name = "threads"
 path = "src/threads.rs"
 
+[[bin]]
+name = "shared_state_concurrency"
+path = "src/shared_state_concurrency.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
 rand = "0.8.3"
