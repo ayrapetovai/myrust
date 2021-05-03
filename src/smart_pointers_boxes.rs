@@ -86,7 +86,7 @@ fn main() {
         fn take_ref(m: &i32) {}
 
         take_ref(&y);  // same as ...
-        take_ref(&*y); // this. In above dereferencing is maid implicitly, called "deref coercion", no runtime  penalty
+        take_ref(&*y); // this. In above dereferencing is made implicitly, called "deref coercion", no runtime  penalty
     }
     {
         // Rust does deref coercion when it finds types and trait implementations in three cases:
