@@ -72,4 +72,22 @@ fn main() {
         }
         println!("|");
     }
+    {
+        // multiline string, special chars treated as common chars
+        let s = r#"\
+        one
+        two "Hello"
+        three\
+        "#;
+        assert_eq!(5, s.lines().collect::<Vec<_>>().len())
+    }
+    {
+        // multiline string with "new line" escaping
+        let s = "\
+        one
+        two
+        three\
+        ";
+        assert_eq!(3, s.lines().collect::<Vec<_>>().len())
+    }
 }
