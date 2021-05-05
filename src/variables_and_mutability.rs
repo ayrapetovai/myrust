@@ -67,4 +67,10 @@ fn main() {
         println!("Values of reference({})", x_ref); // 3
     }
     println!("Values of variable({})", x_mut); // 3
+
+    // raw identifier
+    // compilation_error
+    // let match = 2; // expected identifier, found keyword `match`
+    let r#match = 2; // Ok, raw identifier
+    let x = r#match + 3; // usage
 }
