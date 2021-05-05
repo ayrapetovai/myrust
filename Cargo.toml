@@ -123,6 +123,10 @@ path = "src/polymorphism.rs"
 name = "advanced_types"
 path = "src/advanced_types.rs"
 
+[[bin]]
+name = "macros"
+path = "src/macros.rs"
+
 [dependencies]
 unicode-segmentation = "1.3"
 rand = "0.8.3"
