@@ -5,6 +5,7 @@ use myrust::compilation_error;
 #[allow(unused_imports)] // this should be not needed, it is a bug, run '$ cargo test' without this macro
 use myrust::Verbose;
 use std::collections::HashMap;
+use std::ops::Add;
 
 /*
 Closures can capture values from their environment in three ways, these are encoded in the three Fn traits as follows:
@@ -73,6 +74,48 @@ fn main() {
         compilation_error!(
             let n = example_closure(5); // expected struct `String`, found integer
         );
+    }
+    {
+        // function pointers
+        // 'Fn' - closure trait while 'fn' is a function pointer
+        // fn: Fn: FnMut: FnOnce - we can pass function pointer anywhere where we cant pass 'Fn' of 'FnMut' etc.
+        fn add_one(x: i32) -> i32 {
+            x + 1
+        }
+
+        fn binary_applier<T>(f: fn(T)->T, x: T) -> T
+            where T: Copy + Add<Output = T>
+        {
+            f(x) + f(x)
+        }
+
+        println!("(x+1) + (x+1) is {}", binary_applier(add_one, 10));
+        println!("(x+1) + (x+1) is {}", binary_applier(|x| x + 1, 10));
+    }
+    {
+        // function-like syntax of initialization can be used as function pointers
+        #[derive(Debug, PartialOrd, PartialEq)]
+        enum Status {
+            Value(u32),
+            #[allow(dead_code)]
+            Stop,
+        }
+        let list_of_statuses: Vec<Status> = (0..2).map(Status::Value).collect();
+        assert_eq!(vec![Status::Value(0), Status::Value(1),], list_of_statuses);
+    }
+    {
+        // "returning" closures from functions
+        compilation_error!(
+            fn returns_closure() -> dyn Fn(i32) -> i32 { // 'dyn Fn(i32) -> i32' doesn't have a size known at compile-time
+                |x| x + 1
+            }
+        );
+
+        fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+            Box::new(|x| x + 1)
+        }
+        let incremented_ten = returns_closure()(10);
+        assert_eq!(11, incremented_ten);
     }
 }
 
