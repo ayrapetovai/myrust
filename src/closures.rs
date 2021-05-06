@@ -76,6 +76,29 @@ fn main() {
         );
     }
     {
+        fn consume(f: Box<dyn Fn()>) {
+            f();
+        }
+        let v = Verbose::new(1);
+        consume(Box::new(move || println!("consuming {:?}", v)));
+        compilation_error!(
+            let vv = v; // use of moved value: `v`
+        );
+    }
+    {
+        fn consume(f: Box<dyn FnOnce()>) {
+            f();
+        }
+        fn print(v: Verbose) {
+            println!("consuming {:?}", v)
+        }
+        let v = Verbose::new(2);
+        consume(Box::new(|| print(v))); // 'v' moved to 'print'
+        compilation_error!(
+            let vv = v; // use of moved value: `v`
+        );
+    }
+    {
         // function pointers
         // 'Fn' - closure trait while 'fn' is a function pointer
         // fn: Fn: FnMut: FnOnce - we can pass function pointer anywhere where we cant pass 'Fn' of 'FnMut' etc.
