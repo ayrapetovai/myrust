@@ -3,6 +3,24 @@ extern crate unicode_segmentation;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+// given a and b print all numbers with unique digits
+fn generate_n_with_unq_dig(a: i32, b: i32) -> Vec<i32> {
+    (a..b).into_iter().filter(|x|{
+        let mut digit_is_present = [false; 10];
+        let mut x = *x;
+        while x > 0 {
+            let r = (x % 10) as usize;
+            if digit_is_present[r] {
+                return false;
+            } else {
+                digit_is_present[r] = true;
+            }
+            x = x / 10;
+        }
+        true
+    }).collect()
+}
+
 /*
 // TODO how to write this in rust the right way
 // Java
@@ -233,5 +251,28 @@ mod tests {
     #[test]
     fn urlify_three_space_four_len() {
         check(" abc c-1 ", "%20abc%20c-1%20");
+    }
+
+    // tests for generate_n_with_unq_dig
+    use generate_n_with_unq_dig;
+
+    #[test]
+    fn empty_diapason() {
+        let numbers = generate_n_with_unq_dig(4523, 4523);
+        assert!(numbers.is_empty());
+    }
+
+    #[test]
+    fn single_value_diapason() {
+        let numbers = generate_n_with_unq_dig(4523, 4524);
+        assert_eq!(vec![4523], numbers);
+        let numbers = generate_n_with_unq_dig(4553, 4554);
+        assert!(numbers.is_empty());
+    }
+
+    #[test]
+    fn many_values_diapason() {
+        let numbers = generate_n_with_unq_dig(4000, 5000);
+        assert_eq!(504, numbers.len());
     }
 }
